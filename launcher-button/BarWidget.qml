@@ -17,7 +17,7 @@ NIconButton {
   property string section: ""
 
   icon: "rocket"
-  tooltipText: "Open Launcher"
+  tooltipText: pluginApi?.tr("tooltip.open-launcher") || "Open Launcher"
   tooltipDirection: BarService.getTooltipDirection()
   baseSize: Style.capsuleHeight
   applyUiScale: false
