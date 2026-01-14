@@ -18,6 +18,13 @@ Item {
 
   readonly property var mainInstance: pluginApi?.mainInstance
 
+  onPluginApiChanged: {
+    // Force re-evaluation of mainInstance binding when pluginApi changes
+    if (pluginApi && pluginApi.mainInstance) {
+      mainInstanceChanged();
+    }
+  }
+
   readonly property bool compactMode: mainInstance ? mainInstance.compactMode : false
   
   property real contentPreferredWidth: (compactMode ? 340 : 380) * Style.uiScaleRatio
@@ -77,6 +84,7 @@ Item {
     id: panelContainer
     anchors.fill: parent
     color: "transparent"
+    visible: mainInstance !== null && mainInstance !== undefined
 
     ColumnLayout {
       anchors {
