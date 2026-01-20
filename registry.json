@@ -2,6 +2,22 @@
   "version": 1,
   "plugins": [
     {
+      "id": "battery-threshold",
+      "name": "Battery Threshold Control",
+      "version": "1.0.0",
+      "author": "Wilfred Mallawa",
+      "description": "Set the battery threshold for laptop batteries to extend battery lifespan",
+      "repository": "https://github.com/twilfredo/noctalia-battery-threshold",
+      "minNoctaliaVersion": "3.6.0",
+      "license": "MIT",
+      "tags": [
+        "Bar",
+        "Panel",
+        "System"
+      ],
+      "lastUpdated": "2026-01-17T14:10:05+10:00"
+    },
+    {
       "id": "catwalk",
       "name": "Catwalk",
       "version": "1.1.3",
