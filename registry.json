@@ -54,8 +54,11 @@
       "description": "DNS Manager",
       "minNoctaliaVersion": "4.0.0",
       "license": "MIT",
-      "tags": [],
-      "lastUpdated": "2026-01-17T06:07:06+05:30"
+      "tags": [
+        "Bar",
+        "Network"
+      ],
+      "lastUpdated": "2026-01-20T18:56:53+01:00"
     },
     {
       "id": "fancy-audiovisualizer",
@@ -280,7 +283,7 @@
     {
       "id": "screen-recorder",
       "name": "Screen Recorder",
-      "version": "1.0.7",
+      "version": "1.0.8",
       "author": "Noctalia Team",
       "description": "Hardware-accelerated screen recording using gpu-screen-recorder with customizable video and audio settings",
       "repository": "https://github.com/noctalia-dev/noctalia-plugins",
@@ -290,7 +293,7 @@
         "Bar",
         "Utility"
       ],
-      "lastUpdated": "2026-01-15T00:04:42+05:30"
+      "lastUpdated": "2026-01-21T11:34:47+11:00"
     },
     {
       "id": "screenshot",
@@ -413,7 +416,7 @@
     {
       "id": "weekly-calendar",
       "name": "Weekly Calendar",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "dodaars",
       "description": "A weekly calendar plugin complementing Noctalia's inbuilt calendar service.",
       "repository": "",
@@ -424,7 +427,7 @@
         "Panel",
         "Productivity"
       ],
-      "lastUpdated": "2026-01-19T13:49:54+01:00"
+      "lastUpdated": "2026-01-21T18:52:42+01:00"
     },
     {
       "id": "world-clock",
