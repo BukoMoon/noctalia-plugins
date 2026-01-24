@@ -47,6 +47,7 @@
   "panel": {
     "title": "Réseau Tailscale",
     "peers": "pairs",
+    "not-connected": "Non connecté",
     "online": "En ligne",
     "offline": "Hors ligne",
     "no-peers": "Aucun pair connecté",

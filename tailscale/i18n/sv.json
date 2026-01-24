@@ -47,6 +47,7 @@
   "panel": {
     "title": "Tailscale-nätverk",
     "peers": "peers",
+    "not-connected": "Ej ansluten",
     "online": "Online",
     "offline": "Offline",
     "no-peers": "Inga anslutna peers",

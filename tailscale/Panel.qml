@@ -30,9 +30,25 @@ Item {
     peerContextMenu.openAtItem(delegate, mouseX, mouseY)
   }
 
+  function filterIPv4(ips) {
+    return mainInstance?.filterIPv4(ips) || []
+  }
+
+  function requireTerminal() {
+    if (!isTerminalConfigured) {
+      ToastService.showError(
+        pluginApi?.tr("toast.terminal-not-configured.title") || "Terminal Not Configured",
+        pluginApi?.tr("toast.terminal-not-configured.message") || "Please set a terminal command in plugin settings",
+        "alert-circle"
+      )
+      return false
+    }
+    return true
+  }
+
   function copySelectedPeerIp() {
     if (selectedPeer) {
-      var ips = selectedPeer.TailscaleIPs?.filter(ip => ip.startsWith("100.")) || []
+      var ips = filterIPv4(selectedPeer.TailscaleIPs)
       if (ips.length > 0) {
         copyToClipboard(ips[0])
         ToastService.showNotice(
@@ -45,17 +61,9 @@ Item {
   }
 
   function sshToSelectedPeer() {
-    if (!root.isTerminalConfigured) {
-      ToastService.showError(
-        pluginApi?.tr("toast.terminal-not-configured.title") || "Terminal Not Configured",
-        pluginApi?.tr("toast.terminal-not-configured.message") || "Please set a terminal command in plugin settings",
-        "alert-circle"
-      )
-      return
-    }
-    
+    if (!requireTerminal()) return
     if (selectedPeer) {
-      var ips = selectedPeer.TailscaleIPs?.filter(ip => ip.startsWith("100.")) || []
+      var ips = filterIPv4(selectedPeer.TailscaleIPs)
       if (ips.length > 0) {
         Quickshell.execDetached([root.terminalCommand, "-e", "ssh", ips[0]])
       }
@@ -63,17 +71,9 @@ Item {
   }
 
   function pingSelectedPeer() {
-    if (!root.isTerminalConfigured) {
-      ToastService.showError(
-        pluginApi?.tr("toast.terminal-not-configured.title") || "Terminal Not Configured",
-        pluginApi?.tr("toast.terminal-not-configured.message") || "Please set a terminal command in plugin settings",
-        "alert-circle"
-      )
-      return
-    }
-    
+    if (!requireTerminal()) return
     if (selectedPeer) {
-      var ips = selectedPeer.TailscaleIPs?.filter(ip => ip.startsWith("100.")) || []
+      var ips = filterIPv4(selectedPeer.TailscaleIPs)
       if (ips.length > 0) {
         Quickshell.execDetached([root.terminalCommand, "-e", "ping", "-c", root.pingCount.toString(), ips[0]])
       }
@@ -211,7 +211,9 @@ Item {
             }
 
             NText {
-              text: (mainInstance?.peerList?.length || 0) + " " + (pluginApi?.tr("panel.peers") || "peers")
+              text: mainInstance?.tailscaleRunning
+                ? (mainInstance?.peerList?.length || 0) + " " + (pluginApi?.tr("panel.peers") || "peers")
+                : (pluginApi?.tr("panel.not-connected") || "Not connected")
               pointSize: Style.fontSizeS
               color: Color.mOnSurfaceVariant
             }
@@ -280,8 +282,7 @@ Item {
                   Layout.fillWidth: true
                   text: {
                     if (!mainInstance?.exitNodeStatus) return ""
-                    var ips = mainInstance.exitNodeStatus.TailscaleIPs || []
-                    var ipv4 = ips.filter(ip => ip.startsWith("100."))[0]
+                    var ipv4 = filterIPv4(mainInstance.exitNodeStatus.TailscaleIPs)[0]
                     var status = mainInstance.exitNodeStatus.Online ? (pluginApi?.tr("panel.exit-node.online") || "Online") : (pluginApi?.tr("panel.exit-node.offline") || "Offline")
                     return ipv4 ? ipv4 + " • " + status : status
                   }
@@ -376,13 +377,7 @@ Item {
                   rightPadding: Style.marginL
 
                   readonly property var peerData: modelData
-                  readonly property string peerIp: {
-                    var ips = []
-                    if (peerData.TailscaleIPs && peerData.TailscaleIPs.length > 0) {
-                      ips = peerData.TailscaleIPs.filter(ip => ip.startsWith("100."))
-                    }
-                    return ips.length > 0 ? ips[0] : ""
-                  }
+                  readonly property string peerIp: filterIPv4(peerData.TailscaleIPs)[0] || ""
                   readonly property string peerHostname: peerData.HostName || peerData.DNSName || "Unknown"
                   readonly property bool peerOnline: peerData.Online || false
 
